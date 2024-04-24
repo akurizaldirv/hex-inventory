@@ -1,18 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Component } from "react";
+import PropTypes from "prop-types";
+import WithState from "./shared/hoc/WithState";
 
-function App() {
-  const [count, setCount] = useState(0)
+class App extends Component {
+	state = {    
+    menus: [],
+    tables: [],
+		isAuthenticated: false,
+	};
 
-  return (
-    <>
-      <div className='vh-100 bg-danger'>
-        Warung Makan Bahari
-      </div>
-    </>
-  )
+	navigateTo = (component) => {
+		this.setState({
+			page: component,
+		});
+	};
+
+	handleAuthentication = (status) => {
+		this.setState({
+			isAuthenticated: status,
+		});
+
+		if (status) {
+			this.props.handleShowToast("Sukses login");
+		} else {
+			this.props.handleShowToast("Sukses logout");
+		}
+	};
+	render() {
+		return (
+			<>
+				<div className="vh-100 bg-danger">Warung Makan Bahari</div>
+			</>
+		);
+	}
 }
 
-export default App
+App.propTypes = {
+	handleShowToast: PropTypes.func.isRequired,
+};
+
+const AppComponent = WithState(App);
+export default AppComponent;
