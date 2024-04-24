@@ -8,20 +8,14 @@ import HeaderApp from "./shared/header/Header";
 
 class App extends Component {
 	state = {
-		menus: [
-			{
-				id: 378,
-				nama: "nasi campur",
-				harga: 40000,
-			},
-		],
+		menus: [],
 		tables: [],
 		loginData: {
 			username: "admin",
 			password: "12345678",
 		},
 		isAuthenticated: true,
-		page: <Dashboard />,
+		page: <Dashboard  />,
 	};
 
 	saveTable = (table) => {
@@ -31,12 +25,10 @@ class App extends Component {
 		this.setState({
 			tables: tables,
 		});
-    console.log(this.state.tables);
 	};
 
   deleteTable = (id) => {
     const tables = this.state.tables.filter(table => table.id !== id);
-    console.log(tables);
 
     this.setState({
       tables: tables
@@ -54,7 +46,6 @@ class App extends Component {
 
   deleteMenu = (id) => {
     const menus = this.state.menus.filter(menu => menu.id !== id);
-    console.log(menus);
 
     this.setState({
       menus: menus

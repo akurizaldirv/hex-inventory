@@ -1,8 +1,7 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-// import { IconLayoutDashboard } from "@tabler/icons-react";
+import { IconLayoutDashboard } from "@tabler/icons-react";
 import { IconSoup } from "@tabler/icons-react";
-import { IconPlayerStop } from "@tabler/icons-react";
 import { IconLogout } from "@tabler/icons-react";
 import MenuApp from "../../pages/menu/Menu";
 import TableApp from "../../pages/table/Table";
@@ -31,18 +30,6 @@ export default class Sidebar extends Component {
 					</div>
 					<nav>
 						<ul className="d-flex flex-column gap-3 nav-list btn-toggle-nav list-unstyled">
-							{/* <div>
-								<p className="fw-bold mb-0">Dashboard</p>
-								<li
-									className="cursor-pointer text-white btn text-start w-100"
-									onClick={() => navigateTo(<Dashboard menus={this.props.menus} tables={this.props.tables} />)}
-								>
-									<i className="me-3">
-										<IconLayoutDashboard />
-									</i>
-									<span>Dashboard</span>
-								</li>
-							</div> */}
 							<div>
                                 <hr />
 								<p className="fw-bold mb-0">Management</p>
@@ -60,7 +47,7 @@ export default class Sidebar extends Component {
 									onClick={() => navigateTo(<TableApp tables={this.props.tables} tableControl={this.props.tableControl} />)}
 								>
 									<i className="me-3">
-										<IconPlayerStop />
+										<IconLayoutDashboard />
 									</i>
 									<span>Table</span>
 								</li>
