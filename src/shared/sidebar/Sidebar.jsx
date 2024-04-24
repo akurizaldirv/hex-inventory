@@ -5,12 +5,13 @@ import { IconSoup } from "@tabler/icons-react";
 import { IconPlayerStop } from "@tabler/icons-react";
 import { IconLogout } from "@tabler/icons-react";
 import MenuApp from "../../pages/menu/Menu";
-// import Dashboard from "../../pages/dashboard/Dashboard";
+import TableApp from "../../pages/table/Table";
+import Dashboard from "../../pages/dashboard/Dashboard";
 
 export default class Sidebar extends Component {
 	render() {
 		const { navigateTo } = this.props;
-        
+
 		return (
 			<div
 				className="text-white fixed top-0 left-0"
@@ -20,7 +21,8 @@ export default class Sidebar extends Component {
 					className="bg-primary p-3 shadow rounded-4"
 					style={{ height: "96vh" }}
 				>
-					<div className="font-logo text-center mb-5">
+					<div className="font-logo text-center mb-5 btn text-white w-100"
+                    onClick={() => navigateTo(<Dashboard menus={this.props.menus} tables={this.props.tables} />)}>
 						<h1 className="fs-2 mb-0 fw-light">
 							<span className="fw-bold  fst-italic">WMB</span>
 						</h1>
@@ -55,7 +57,7 @@ export default class Sidebar extends Component {
 								</li>
 								<li
 									className="cursor-pointer text-white btn text-start w-100"
-									onClick={() => navigateTo()}
+									onClick={() => navigateTo(<TableApp tables={this.props.tables} tableControl={this.props.tableControl} />)}
 								>
 									<i className="me-3">
 										<IconPlayerStop />
@@ -89,4 +91,5 @@ Sidebar.propTypes = {
     menus: PropTypes.array.isRequired,
     tables: PropTypes.array.isRequired,
     menuControl: PropTypes.object.isRequired,
+    tableControl: PropTypes.object.isRequired,
 };

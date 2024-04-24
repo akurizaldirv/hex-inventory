@@ -139,7 +139,7 @@ class Login extends Component {
 						<button
 							disabled={!this.state.isValid}
 							type="submit"
-							className="btn btn-primary text-white w-100 mt-3"
+							className="btn btn-primary text-white text-white w-100 mt-3"
 							onClick={this.handleSubmit}
 						>
 							Login

@@ -24,6 +24,25 @@ class App extends Component {
 		page: <Dashboard />,
 	};
 
+	saveTable = (table) => {
+		const tables = this.state.tables;
+		tables.push(table);
+
+		this.setState({
+			tables: tables,
+		});
+    console.log(this.state.tables);
+	};
+
+  deleteTable = (id) => {
+    const tables = this.state.tables.filter(table => table.id !== id);
+    console.log(tables);
+
+    this.setState({
+      tables: tables
+    })
+  }
+
 	saveMenu = (menu) => {
 		const menus = this.state.menus;
 		menus.push(menu);
@@ -70,6 +89,11 @@ class App extends Component {
 			save: this.saveMenu,
       delete: this.deleteMenu
 		};
+		
+    const tableControl = {
+			save: this.saveTable,
+      delete: this.deleteTable
+		};
 
 		return (
 			<div style={{ margin: "2vh" }}>
@@ -82,6 +106,7 @@ class App extends Component {
 							menus={this.state.menus}
 							tables={this.state.tables}
 							menuControl={menuControl}
+							tableControl={tableControl}
 						/>
 						<main className="w-100 flex-grow-1">
 							<HeaderApp

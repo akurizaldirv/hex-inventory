@@ -1,16 +1,15 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
 
-export default class MenuForm extends Component {
+export default class TableForm extends Component {
 	state = {
 		form: {
 			id: "",
-			harga: 0,
 			nama: "",
+            status: false
 		},
 		error: {
 			id: "",
-			harga: "",
 			nama: "",
 		},
 		isValid: false,
@@ -24,10 +23,6 @@ export default class MenuForm extends Component {
 			error.nama = value.length === 0 ? "Nama menu wajib diisi" : "";
 		}
 
-		if (name === "harga") {
-			error.harga = value.length === 0 ? "Harga menu wajib diisi" : "";
-		}
-
 		this.setState({
 			form: {
 				...this.state.form,
@@ -38,12 +33,20 @@ export default class MenuForm extends Component {
 		this.validateForm();
 	};
 
+    handleChangeStatus = (event) => {
+		this.setState({
+			form: {
+				...this.state.form,
+				status: event.target.checked,
+			},
+		});
+	};
+
 	validateForm = () => {
-		const { nama, harga } = this.state.form;
+		const { nama } = this.state.form;
 		const { error } = this.state;
 		const isValid =
 			nama.trim() !== "" &&
-			harga !== 0 &&
 			Object.values(error).every((e) => e === "");
 
 		this.setState({ isValid });
@@ -55,14 +58,14 @@ export default class MenuForm extends Component {
 
 		this.props.handleShowLoading();
 		setTimeout(() => {
-			const menu = {
+			const table = {
 				...this.state.form,
 				id: new Date().getMilliseconds().toString(),
 			};
 
-			this.props.saveMenu(menu);
+			this.props.saveTable(table);
 			this.props.handleHideLoading();
-		}, 3000);
+		}, 300);
 	};
 	render() {
 		return (
@@ -88,31 +91,18 @@ export default class MenuForm extends Component {
 								{this.state.error.nama}
 							</div>
 						)}
-					</div>
-					<div className="mb-3">
-						<label htmlFor="inputHarga" className="form-label">
-							Harga
-						</label>
-						<input
-							type="number"
-							className={`form-control ${
-								this.state.error.harga === ""
-									? ""
-									: "is-invalid"
-							}`}
-							id="inputHarga"
-							name="harga"
-							pattern="[0-9\s]{13,19}"
-							value={this.state.harga}
-							onChange={this.handleChange}
-							onBlur={this.handleChange}
-						/>
-						{this.state.error.harga && (
-							<div className="invalid-feedback ">
-								{this.state.error.harga}
-							</div>
-						)}
-					</div>
+					</div>                    
+						<div className="form-check my-3  d-flex gap-2">
+							<input
+								type="checkbox"
+								name="status"
+								id="status"
+								className="form-check-input"
+								onChange={this.handleChangeStatus}
+								checked={this.state.form.status}
+							/>
+							<label htmlFor="status">Tersedia</label>
+						</div>
 					<div className="d-flex gap-3">
 						<button
 							type="submit"
@@ -131,8 +121,8 @@ export default class MenuForm extends Component {
 	}
 }
 
-MenuForm.propTypes = {
-	saveMenu: PropTypes.func.isRequired,
+TableForm.propTypes = {
+	saveTable: PropTypes.func.isRequired,
 	handleShowLoading: PropTypes.func.isRequired,
 	handleHideLoading: PropTypes.func.isRequired,
 };
