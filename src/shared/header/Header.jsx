@@ -1,5 +1,4 @@
 import { IconLogout } from "@tabler/icons-react";
-import { IconSettings2 } from "@tabler/icons-react";
 import { Component } from "react";
 import PropTypes from "prop-types";
 import WithState from "../hoc/WithState";

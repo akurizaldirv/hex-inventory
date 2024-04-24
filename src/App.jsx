@@ -7,16 +7,40 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import HeaderApp from "./shared/header/Header";
 
 class App extends Component {
-	state = {    
-    menus: [],
-    tables: [],
-    loginData:{
-      username: "admin",
-      password: "12345678"
-    },
+	state = {
+		menus: [
+			{
+				id: 378,
+				nama: "nasi campur",
+				harga: 40000,
+			},
+		],
+		tables: [],
+		loginData: {
+			username: "admin",
+			password: "12345678",
+		},
 		isAuthenticated: true,
-    page: <Dashboard />
+		page: <Dashboard />,
 	};
+
+	saveMenu = (menu) => {
+		const menus = this.state.menus;
+		menus.push(menu);
+
+		this.setState({
+			menus: menus,
+		});
+	};
+
+  deleteMenu = (id) => {
+    const menus = this.state.menus.filter(menu => menu.id !== id);
+    console.log(menus);
+
+    this.setState({
+      menus: menus
+    })
+  }
 
 	navigateTo = (component) => {
 		this.setState({
@@ -36,27 +60,45 @@ class App extends Component {
 		}
 	};
 
-  handleLogout = () => {
+	handleLogout = () => {
 		if (!confirm("Apakah yakin ingin logout?")) return;
 		this.handleAuthentication(false);
 	};
 
-
 	render() {
+		const menuControl = {
+			save: this.saveMenu,
+      delete: this.deleteMenu
+		};
+
 		return (
-			<div style={{margin: "2vh"}}>
-      {this.state.isAuthenticated ? (
+			<div style={{ margin: "2vh" }}>
+				{this.state.isAuthenticated ? (
 					<div className="d-flex">
-					<Sidebar navigateTo={this.navigateTo} handleAuthentication={this.handleAuthentication} handleLogout={this.handleLogout}/>
-					<main className="w-100 flex-grow-1">
-						<HeaderApp handleAuthentication={this.handleAuthentication} navigateTo={this.navigateTo} username={this.state.loginData.username} handleLogout={this.handleLogout}/>
-						{this.state.page}
-					</main>
-				</div>
+						<Sidebar
+							navigateTo={this.navigateTo}
+							handleAuthentication={this.handleAuthentication}
+							handleLogout={this.handleLogout}
+							menus={this.state.menus}
+							tables={this.state.tables}
+							menuControl={menuControl}
+						/>
+						<main className="w-100 flex-grow-1">
+							<HeaderApp
+								handleAuthentication={this.handleAuthentication}
+								navigateTo={this.navigateTo}
+								username={this.state.loginData.username}
+								handleLogout={this.handleLogout}
+							/>
+							{this.state.page}
+						</main>
+					</div>
 				) : (
-					<Login handleAuthentication={this.handleAuthentication} loginData={this.state.loginData}/>
+					<Login
+						handleAuthentication={this.handleAuthentication}
+						loginData={this.state.loginData}
+					/>
 				)}
-				
 			</div>
 		);
 	}

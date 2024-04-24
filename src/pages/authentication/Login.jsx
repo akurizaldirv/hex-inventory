@@ -60,7 +60,6 @@ class Login extends Component {
 		const { username, password } = this.state.form;
 		if (!this.state.isValid) return;
 
-		console.log(this.state);
 		if (
 			username === this.props.loginData.username &&
 			password === this.props.loginData.password

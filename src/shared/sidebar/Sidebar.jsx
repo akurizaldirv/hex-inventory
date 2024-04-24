@@ -1,14 +1,16 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { IconLayoutDashboard } from "@tabler/icons-react";
+// import { IconLayoutDashboard } from "@tabler/icons-react";
 import { IconSoup } from "@tabler/icons-react";
 import { IconPlayerStop } from "@tabler/icons-react";
 import { IconLogout } from "@tabler/icons-react";
+import MenuApp from "../../pages/menu/Menu";
+// import Dashboard from "../../pages/dashboard/Dashboard";
 
 export default class Sidebar extends Component {
 	render() {
 		const { navigateTo } = this.props;
-
+        
 		return (
 			<div
 				className="text-white fixed top-0 left-0"
@@ -23,28 +25,28 @@ export default class Sidebar extends Component {
 							<span className="fw-bold  fst-italic">WMB</span>
 						</h1>
 						<p className="mt-0">Warung Makan Bakari</p>
-                        <hr />
+                        {/* <hr /> */}
 					</div>
 					<nav>
 						<ul className="d-flex flex-column gap-3 nav-list btn-toggle-nav list-unstyled">
-							<div>
+							{/* <div>
 								<p className="fw-bold mb-0">Dashboard</p>
 								<li
 									className="cursor-pointer text-white btn text-start w-100"
-									onClick={() => navigateTo(<UserApp />)}
+									onClick={() => navigateTo(<Dashboard menus={this.props.menus} tables={this.props.tables} />)}
 								>
 									<i className="me-3">
 										<IconLayoutDashboard />
 									</i>
 									<span>Dashboard</span>
 								</li>
-							</div>
+							</div> */}
 							<div>
                                 <hr />
 								<p className="fw-bold mb-0">Management</p>
 								<li
 									className="cursor-pointer text-white btn text-start w-100"
-									onClick={() => navigateTo(<UserApp />)}
+									onClick={() => navigateTo(<MenuApp menus={this.props.menus} menuControl={this.props.menuControl}/>)}
 								>
 									<i className="me-3">
 										<IconSoup />
@@ -53,7 +55,7 @@ export default class Sidebar extends Component {
 								</li>
 								<li
 									className="cursor-pointer text-white btn text-start w-100"
-									onClick={() => navigateTo(<UserApp />)}
+									onClick={() => navigateTo()}
 								>
 									<i className="me-3">
 										<IconPlayerStop />
@@ -84,4 +86,7 @@ export default class Sidebar extends Component {
 Sidebar.propTypes = {
 	navigateTo: PropTypes.func.isRequired,
     handleLogout: PropTypes.func.isRequired,
+    menus: PropTypes.array.isRequired,
+    tables: PropTypes.array.isRequired,
+    menuControl: PropTypes.object.isRequired,
 };
