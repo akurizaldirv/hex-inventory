@@ -7,7 +7,7 @@ const WithState = (WrappedComponent) => {
 			isLoading: false,
 			showToast: false,
 			toastMessage: "",
-			toastColor: "primary",
+			toastColor: "secondary",
 		};
 
 		handleShowLoading = () => {

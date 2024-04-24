@@ -2,6 +2,7 @@ import { Component } from "react";
 import { IconAt, IconLock } from "@tabler/icons-react";
 import foods from "../../assets/img/foods.png";
 import WithState from "../../shared/hoc/WithState";
+import PropTypes from "prop-types";
 
 class Login extends Component {
 	state = {
@@ -26,10 +27,10 @@ class Login extends Component {
 		if (name === "password") {
 			if (value.length === 0) {
 				error.password = "Password wajib diisi";
-			} else if (value.length <=6) {
+			} else if (value.length <= 6) {
 				error.password = "Password minimal 6 karakter";
 			} else {
-				error.password = ""
+				error.password = "";
 			}
 		}
 
@@ -60,7 +61,10 @@ class Login extends Component {
 		if (!this.state.isValid) return;
 
 		console.log(this.state);
-		if (username === "admin" && password === "12345678") {
+		if (
+			username === this.props.loginData.username &&
+			password === this.props.loginData.password
+		) {
 			this.props.handleAuthentication(true);
 		} else {
 			this.props.handleShowToast("Username/Password salah", "danger");
@@ -147,6 +151,12 @@ class Login extends Component {
 		);
 	}
 }
+
+Login.propTypes = {
+	loginData: PropTypes.object.isRequired,
+	handleShowToast: PropTypes.func.isRequired,
+	handleAuthentication: PropTypes.func.isRequired,
+};
 
 const LoginComponent = WithState(Login);
 export default LoginComponent;
