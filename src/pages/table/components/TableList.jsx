@@ -13,7 +13,7 @@ export default class TableList extends Component {
 	render() {
 		return (
 			<div>
-				<table className="table">
+				<table className="table table-striped">
 					<thead>
 						<tr className="fw-semibold">
 							<th scope="col">No.</th>

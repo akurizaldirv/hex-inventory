@@ -113,7 +113,7 @@ export default class MenuForm extends Component {
 							</div>
 						)}
 					</div>
-					<div className="d-flex gap-3">
+					<div className="d-flex gap-1">
 						<button
 							type="submit"
 							className="btn btn-primary text-white"

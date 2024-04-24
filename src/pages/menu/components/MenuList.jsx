@@ -13,7 +13,7 @@ export default class MenuList extends Component {
 	render() {
 		return (
 			<div>
-				<table className="table">
+				<table className="table table-striped">
 					<thead>
 						<tr className="fw-semibold">
 							<th scope="col">No.</th>
@@ -28,7 +28,7 @@ export default class MenuList extends Component {
 								<tr key={menu.id}>
 									<th scope="row">{idx + 1}</th>
 									<td>{menu.nama}</td>
-									<td>{menu.harga}</td>
+									<td>Rp. {new Intl.NumberFormat('en-DE').format(menu.harga)}</td>
 									<td>
 										<button
 											className="btn btn-danger"
