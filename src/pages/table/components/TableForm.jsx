@@ -1,128 +1,144 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
+import WithState from "../../../shared/hoc/WithState";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { addTableAction, selectedTable } from "../slice/TableSlice";
+import { useNavigate } from "react-router-dom";
 
-export default class TableForm extends Component {
-	state = {
-		form: {
-			id: "",
-			nama: "",
-            status: false
-		},
-		error: {
-			id: "",
-			nama: "",
-		},
-		isValid: false,
-	};
+const TableForm = () => {
+	const [form, setForm] = useState({
+		id: "",
+		nama: "",
+		status: false,
+	});
+	const [error, setError] = useState({
+		id: "",
+		nama: "",
+	});
+	const [isValid, setIsValid] = useState(false);
 
-	handleChange = (e) => {
+	const { table } = useSelector((state) => state.table);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (table) {
+			setForm(table);
+		}
+	}, [table]);
+
+	const handleChange = (e) => {
 		const { name, value } = e.target;
-		const error = { ...this.state.error };
+		const newError = { ...error };
 
 		if (name === "nama") {
-			error.nama = value.length === 0 ? "Nama menu wajib diisi" : "";
+			newError.nama = value.length === 0 ? "Nama menu wajib diisi" : "";
 		}
 
-		this.setState({
-			form: {
-				...this.state.form,
-				[name]: value,
-			},
-			error,
+		setForm({
+			...form,
+			[name]: value,
 		});
-		this.validateForm();
+		setError(newError);
+
+		validateForm();
 	};
 
-    handleChangeStatus = (event) => {
-		this.setState({
-			form: {
-				...this.state.form,
-				status: event.target.checked,
-			},
+	const handleChangeStatus = (event) => {
+		setForm({
+			...form,
+			status: event.target.checked,
 		});
 	};
 
-	validateForm = () => {
-		const { nama } = this.state.form;
-		const { error } = this.state;
+	const validateForm = () => {
+		const { nama } = form;
 		const isValid =
-			nama.trim() !== "" &&
-			Object.values(error).every((e) => e === "");
+			nama.trim() !== "" && Object.values(error).every((e) => e === "");
 
-		this.setState({ isValid });
+		setIsValid(isValid);
 	};
 
-	handleSubmit = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (!this.state.isValid) return;
+		if (!isValid) return;
 
-		this.props.handleShowLoading();
-		setTimeout(() => {
-			const table = {
-				...this.state.form,
-				id: new Date().getMilliseconds().toString(),
-			};
+		const table = {
+			...form,
+			id: new Date().getMilliseconds().toString(),
+		};
+		dispatch(addTableAction(table));
 
-			this.props.saveTable(table);
-			this.props.handleHideLoading();
-		}, 300);
+		clearForm();
+		navigate("/table");
 	};
-	render() {
-		return (
-			<div>
-				<form onSubmit={this.handleSubmit}>
-					<div className="mb-3">
-						<label htmlFor="inputName" className="form-label">
-							Nama
-						</label>
-						<input
-							type="text"
-							className={`form-control ${
-								this.state.error.nama === "" ? "" : "is-invalid"
-							}`}
-							id="inputName"
-							name="nama"
-							value={this.state.nama}
-							onChange={this.handleChange}
-							onBlur={this.handleChange}
-						/>
-						{this.state.error.nama && (
-							<div className="invalid-feedback ">
-								{this.state.error.nama}
-							</div>
-						)}
-					</div>                    
-						<div className="form-check my-3  d-flex gap-2">
-							<input
-								type="checkbox"
-								name="status"
-								id="status"
-								className="form-check-input"
-								onChange={this.handleChangeStatus}
-								checked={this.state.form.status}
-							/>
-							<label htmlFor="status">Tersedia</label>
-						</div>
-					<div className="d-flex gap-3">
-						<button
-							type="submit"
-							className="btn btn-primary text-white"
-							disabled={!this.state.isValid}
-						>
-							Simpan
-						</button>
-						<button type="reset" className="btn btn-danger">
-							Reset
-						</button>
-					</div>
-				</form>
-			</div>
-		);
-	}
-}
 
-TableForm.propTypes = {
-	saveTable: PropTypes.func.isRequired,
-	handleShowLoading: PropTypes.func.isRequired,
-	handleHideLoading: PropTypes.func.isRequired,
+	const clearForm = () => {
+		const emptyForm = {
+			id: "",
+			nama: "",
+			status: false,
+		};
+
+		dispatch(selectedTable(emptyForm));
+	};
+
+	return (
+		<div>
+			<form onSubmit={handleSubmit}>
+				<div className="mb-3">
+					<label htmlFor="inputName" className="form-label">
+						Nama
+					</label>
+					<input
+						type="text"
+						className={`form-control ${
+							error.nama === "" ? "" : "is-invalid"
+						}`}
+						id="inputName"
+						name="nama"
+						value={form.nama}
+						onChange={handleChange}
+						onBlur={handleChange}
+					/>
+					{error.nama && (
+						<div className="invalid-feedback ">{error.nama}</div>
+					)}
+				</div>
+				<div className="form-check my-3  d-flex gap-2">
+					<input
+						type="checkbox"
+						name="status"
+						id="status"
+						className="form-check-input"
+						onChange={handleChangeStatus}
+						checked={form.status}
+					/>
+					<label htmlFor="status">Tersedia</label>
+				</div>
+				<div className="d-flex gap-3">
+					<button
+						type="submit"
+						className="btn btn-primary text-white"
+						disabled={!isValid}
+					>
+						Simpan
+					</button>
+					<button type="reset" className="btn btn-danger">
+						Reset
+					</button>
+					<button
+						className="btn btn-secondary"
+						onClick={() => navigate("/table")}
+					>
+						Back
+					</button>
+				</div>
+			</form>
+		</div>
+	);
 };
+
+const TableFormWithState = WithState(TableForm);
+export default TableFormWithState;

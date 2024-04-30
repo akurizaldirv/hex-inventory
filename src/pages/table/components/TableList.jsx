@@ -1,29 +1,50 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getTableAction, removeTableAction } from "../slice/TableSlice";
+import LoadingAnimation from "../../../shared/animation/LoadingAnimation";
 
-export default class TableList extends Component {
-	handleDelete = (id) => {
-		this.props.handleShowLoading();
-		setTimeout(() => {
-			this.props.deleteTable(id);
-			this.props.handleHideLoading();
-		}, 3000);
-	};
+const TableList = () => {
+	const { tables, isLoading } = useSelector((state) => state.table);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-	render() {
+	useEffect(() => {
+		dispatch(getTableAction());
+	}, [dispatch]);
+
+	if (isLoading) {
 		return (
 			<div>
-				<table className="table table-striped">
-					<thead>
-						<tr className="fw-semibold">
-							<th scope="col">No.</th>
-							<th scope="col">Nama</th>
-							<th scope="col">Harga</th>
-							<th scope="col">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						{this.props.tables.map((table, idx) => {
+				<LoadingAnimation />
+			</div>
+		);
+	}
+
+	return (
+		<div>
+			<div className="d-flex mt-5 justify-content-between">
+				<h2 className="fs-4">Daftar Meja</h2>
+				<button
+					onClick={() => navigate("form")}
+					className="btn btn-primary text-light"
+				>
+					Tambah
+				</button>
+			</div>
+			<table className="table table-striped">
+				<thead>
+					<tr className="fw-semibold">
+						<th scope="col">No.</th>
+						<th scope="col">Nama</th>
+						<th scope="col">Status</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{tables &&
+						tables.map((table, idx) => {
 							return (
 								<tr key={table.id}>
 									<th scope="row">{idx + 1}</th>
@@ -44,9 +65,10 @@ export default class TableList extends Component {
 									<td>
 										<button
 											className="btn btn-danger"
-											onClick={() =>
-												this.handleDelete(table.id)
-											}
+											onClick={() => 
+												dispatch(
+													removeTableAction(table.id)
+												)}
 										>
 											Hapus
 										</button>
@@ -54,16 +76,10 @@ export default class TableList extends Component {
 								</tr>
 							);
 						})}
-					</tbody>
-				</table>
-			</div>
-		);
-	}
-}
-
-TableList.propTypes = {
-	tables: PropTypes.array.isRequired,
-	deleteTable: PropTypes.func.isRequired,
-	handleShowLoading: PropTypes.func.isRequired,
-	handleHideLoading: PropTypes.func.isRequired,
+				</tbody>
+			</table>
+		</div>
+	);
 };
+
+export default TableList;

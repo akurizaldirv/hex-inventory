@@ -1,4 +1,3 @@
-import food from "../../assets/animations/food.json"
 import bowl from "../../assets/animations/bowl.json"
 import Lottie from "lottie-react"
 

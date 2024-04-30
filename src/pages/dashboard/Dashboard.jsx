@@ -1,7 +1,7 @@
 import { Component } from "react";
 
 export default class Dashboard extends Component {
-	render() {
+    render() {
 		return (
 			<div
 				className="text-center rounded-4 px-4 py-2"

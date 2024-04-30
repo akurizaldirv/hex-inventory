@@ -1,10 +1,9 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
 import WithState from "./shared/hoc/WithState";
-import Login from "./pages/authentication/Login";
-import Sidebar from "./shared/sidebar/Sidebar";
 import Dashboard from "./pages/dashboard/Dashboard";
-import HeaderApp from "./shared/header/Header";
+import { RouterProvider } from "react-router-dom";
+import Routes from "./routes/Routes";
 
 class App extends Component {
 	state = {
@@ -15,7 +14,7 @@ class App extends Component {
 			password: "12345678",
 		},
 		isAuthenticated: true,
-		page: <Dashboard  />,
+		page: <Dashboard />,
 	};
 
 	saveTable = (table) => {
@@ -27,13 +26,13 @@ class App extends Component {
 		});
 	};
 
-  deleteTable = (id) => {
-    const tables = this.state.tables.filter(table => table.id !== id);
+	deleteTable = (id) => {
+		const tables = this.state.tables.filter(table => table.id !== id);
 
-    this.setState({
-      tables: tables
-    })
-  }
+		this.setState({
+			tables: tables
+		})
+	}
 
 	saveMenu = (menu) => {
 		const menus = this.state.menus;
@@ -44,13 +43,13 @@ class App extends Component {
 		});
 	};
 
-  deleteMenu = (id) => {
-    const menus = this.state.menus.filter(menu => menu.id !== id);
+	deleteMenu = (id) => {
+		const menus = this.state.menus.filter(menu => menu.id !== id);
 
-    this.setState({
-      menus: menus
-    })
-  }
+		this.setState({
+			menus: menus
+		})
+	}
 
 	navigateTo = (component) => {
 		this.setState({
@@ -76,47 +75,19 @@ class App extends Component {
 	};
 
 	render() {
-		const menuControl = {
-			save: this.saveMenu,
-      delete: this.deleteMenu
-		};
-		
-    const tableControl = {
-			save: this.saveTable,
-      delete: this.deleteTable
-		};
+		// 	const menuControl = {
+		// 		save: this.saveMenu,
+		//   delete: this.deleteMenu
+		// 	};
+
+		// const tableControl = {
+		// 		save: this.saveTable,
+		//   delete: this.deleteTable
+		// 	};
 
 		return (
-			<div style={{ margin: "2vh" }}>
-				{this.state.isAuthenticated ? (
-					<div className="d-flex">
-						<Sidebar
-							navigateTo={this.navigateTo}
-							handleAuthentication={this.handleAuthentication}
-							handleLogout={this.handleLogout}
-							menus={this.state.menus}
-							tables={this.state.tables}
-							menuControl={menuControl}
-							tableControl={tableControl}
-						/>
-						<main className="w-100 flex-grow-1">
-							<HeaderApp
-								handleAuthentication={this.handleAuthentication}
-								navigateTo={this.navigateTo}
-								username={this.state.loginData.username}
-								handleLogout={this.handleLogout}
-							/>
-							{this.state.page}
-						</main>
-					</div>
-				) : (
-					<Login
-						handleAuthentication={this.handleAuthentication}
-						loginData={this.state.loginData}
-					/>
-				)}
-			</div>
-		);
+			<RouterProvider router={Routes} />
+		)
 	}
 }
 
