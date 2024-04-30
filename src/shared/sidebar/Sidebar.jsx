@@ -3,7 +3,7 @@ import { IconSoup } from "@tabler/icons-react";
 import { IconLogout } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../pages/authentication/slice/AuthSlice";
+import { logoutAction } from "../../pages/authentication/slice/AuthSlice";
 
 const Sidebar = () => {
 	const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Sidebar = () => {
 							<hr />
 							<li
 								className="cursor-pointer text-white btn text-start w-100"
-								onClick={() => dispatch(logout())}
+								onClick={() => dispatch(logoutAction())}
 							>
 								<i className="me-3">
 									<IconLogout />

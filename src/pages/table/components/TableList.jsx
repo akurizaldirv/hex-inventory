@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getTableAction, removeTableAction } from "../slice/TableSlice";
+import { getTableAction, removeTableAction, selectedTable } from "../slice/TableSlice";
 import LoadingAnimation from "../../../shared/animation/LoadingAnimation";
 
 const TableList = () => {
@@ -13,6 +13,12 @@ const TableList = () => {
 	useEffect(() => {
 		dispatch(getTableAction());
 	}, [dispatch]);
+
+	const handleClickEdit = (data) => {
+		dispatch(selectedTable(data))
+		navigate("form")
+	}
+
 
 	if (isLoading) {
 		return (
@@ -53,7 +59,7 @@ const TableList = () => {
 										<span
 											className={`badge text-white p-2 ${
 												table.status
-													? "bg-primary"
+													? "bg-secondary"
 													: "bg-danger"
 											}`}
 										>
@@ -63,6 +69,12 @@ const TableList = () => {
 										</span>
 									</td>
 									<td>
+										<button
+											className="btn btn-primary text-light me-2"
+											onClick={() => handleClickEdit(table)}
+										>
+											Edit
+										</button>
 										<button
 											className="btn btn-danger"
 											onClick={() => 

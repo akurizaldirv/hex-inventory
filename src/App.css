@@ -1,0 +1,10 @@
+.background {
+    background-image: url('assets/img/background.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.white-blur {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+}

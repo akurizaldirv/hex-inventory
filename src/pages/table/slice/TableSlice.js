@@ -16,6 +16,15 @@ export const addTableAction = createAsyncThunk(
 	}
 );
 
+export const updateTableAction = createAsyncThunk(
+	"table/updateTable",
+	async (payload, thunkAPI) => {
+		await service.update(payload);
+		const response = await thunkAPI.dispatch(getTableAction());
+		return response.payload;
+	}
+);
+
 export const removeTableAction = createAsyncThunk(
 	"table/removeTable",
 	async (payload, thunkAPI) => {
@@ -34,12 +43,6 @@ const TableSlice = createSlice({
 		message: "",
 	},
 	reducers: {
-		add: (state, { payload }) => {
-			state.tables.push(payload);
-		},
-		remove: (state, { payload }) => {
-			state.tables = state.tables.filter((table) => table.id !== payload);
-		},
 		selectedTable: (state, { payload }) => {
 			state.table = payload;
 		},
@@ -64,6 +67,17 @@ const TableSlice = createSlice({
 			state.isLoading = false;
 		});
 		builder.addCase(addTableAction.rejected, (state) => {
+			state.isLoading = false;
+		});
+
+		builder.addCase(updateTableAction.pending, (state) => {
+			state.isLoading = true;
+		});
+		builder.addCase(updateTableAction.fulfilled, (state, { payload }) => {
+			state.tables = payload;
+			state.isLoading = false;
+		});
+		builder.addCase(updateTableAction.rejected, (state) => {
 			state.isLoading = false;
 		});
 

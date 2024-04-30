@@ -3,7 +3,11 @@ import WithState from "../../../shared/hoc/WithState";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { addTableAction, selectedTable } from "../slice/TableSlice";
+import {
+	addTableAction,
+	selectedTable,
+	updateTableAction,
+} from "../slice/TableSlice";
 import { useNavigate } from "react-router-dom";
 
 const TableForm = () => {
@@ -50,6 +54,8 @@ const TableForm = () => {
 			...form,
 			status: event.target.checked,
 		});
+
+		validateForm();
 	};
 
 	const validateForm = () => {
@@ -64,11 +70,15 @@ const TableForm = () => {
 		e.preventDefault();
 		if (!isValid) return;
 
-		const table = {
-			...form,
-			id: new Date().getMilliseconds().toString(),
-		};
-		dispatch(addTableAction(table));
+		if (form.id) {
+			dispatch(updateTableAction(form));
+		} else {
+			const table = {
+				...form,
+				id: new Date().getMilliseconds().toString(),
+			};
+			dispatch(addTableAction(table));
+		}
 
 		clearForm();
 		navigate("/table");
@@ -80,7 +90,7 @@ const TableForm = () => {
 			nama: "",
 			status: false,
 		};
-
+		setForm(emptyForm);
 		dispatch(selectedTable(emptyForm));
 	};
 
@@ -120,7 +130,7 @@ const TableForm = () => {
 				<div className="d-flex gap-3">
 					<button
 						type="submit"
-						className="btn btn-primary text-white"
+						className="btn btn-primary text-light"
 						disabled={!isValid}
 					>
 						Simpan
@@ -129,7 +139,7 @@ const TableForm = () => {
 						Reset
 					</button>
 					<button
-						className="btn btn-secondary"
+						className="btn btn-secondary text-light"
 						onClick={() => navigate("/table")}
 					>
 						Back

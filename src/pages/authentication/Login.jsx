@@ -1,28 +1,28 @@
 import { IconAt, IconLock } from "@tabler/icons-react";
 import foods from "../../assets/img/foods.png";
-import WithState from "../../shared/hoc/WithState";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { login } from "./slice/AuthSlice";
-
+import { loginAction } from "./slice/AuthSlice";
+import "../../App.css"
 const Login = () => {
 	const [form, setForm] = useState({
 		username: "",
-		password: ""
-	})
+		password: "",
+	});
 	const [error, setError] = useState({
-		username: '',
-		password: ''
-	})
-	const [isValid, setIsValid] = useState(false)
+		username: "",
+		password: "",
+	});
+	const [isValid, setIsValid] = useState(false);
 
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		const newError = { ...error };
 		if (name === "username") {
-			newError.username = value.length === 0 ? "Username wajib diisi" : "";
+			newError.username =
+				value.length === 0 ? "Username wajib diisi" : "";
 		}
 		if (name === "password") {
 			if (value.length === 0) {
@@ -36,10 +36,10 @@ const Login = () => {
 
 		setForm({
 			...form,
-			[name]: value
-		})
+			[name]: value,
+		});
 
-		setError(newError)
+		setError(newError);
 		validateForm();
 	};
 
@@ -57,17 +57,17 @@ const Login = () => {
 		e.preventDefault();
 		if (!isValid) return;
 
-		dispatch(login(form));
+		dispatch(loginAction(form));
 	};
 
 	return (
 		<>
 			<div
-				className="container py-5 d-flex align-items-center justify-content-center"
+				className="d-flex align-items-center justify-content-center background"
 				style={{ minHeight: "100dvh" }}
 			>
 				<div
-					className="login-form rounded-3 shadow mx-auto p-4 d-flex flex-column gap-2"
+					className="login-form rounded-3 shadow mx-auto p-4 d-flex flex-column gap-2 white-blur"
 					style={{ maxWidth: "360px" }}
 				>
 					<div className="d-flex justify-content-center align-items-center">
@@ -84,9 +84,7 @@ const Login = () => {
 						<input
 							type="text"
 							className={`form-control ${
-								error.username === ""
-									? ""
-									: "is-invalid"
+								error.username === "" ? "" : "is-invalid"
 							}`}
 							id="input-username"
 							name="username"
@@ -108,9 +106,7 @@ const Login = () => {
 						<input
 							type="password"
 							className={`form-control ${
-								error.password === ""
-									? ""
-									: "is-invalid"
+								error.password === "" ? "" : "is-invalid"
 							}`}
 							id="input-password"
 							placeholder="Input Password"
@@ -137,7 +133,6 @@ const Login = () => {
 			</div>
 		</>
 	);
-}
+};
 
-const LoginComponent = WithState(Login);
-export default LoginComponent;
+export default Login;

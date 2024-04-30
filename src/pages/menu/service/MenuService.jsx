@@ -28,6 +28,29 @@ const MenuService = () => {
 		});
 	};
 
+	const update = (updated) => {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				if (updated) {
+					let found = false;
+					menus = menus.map((menu) => {
+						if (menu.id === updated.id) {
+							found = true;
+							return updated;
+						} else {
+							return menu;
+						}
+					});
+					if (found) {
+						resolve("Data berhasil disimpan");
+					} else {
+						reject("Data tidak ditemukan");
+					}
+				}
+			}, 2000);
+		});
+	};
+
 	const remove = (id) => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
@@ -46,7 +69,7 @@ const MenuService = () => {
 		});
 	};
 
-	return { create, getAll, remove };
+	return { create, getAll, update, remove };
 };
 
 export default MenuService;

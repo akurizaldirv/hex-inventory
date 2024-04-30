@@ -16,6 +16,15 @@ export const addMenuAction = createAsyncThunk(
 	}
 );
 
+export const updateMenuAction = createAsyncThunk(
+	"menu/updateMenu",
+	async (payload, thunkAPI) => {
+		await service.update(payload);
+		const response = await thunkAPI.dispatch(getMenuAction());
+		return response.payload;
+	}
+);
+
 export const removeMenuAction = createAsyncThunk(
 	"menu/removeMenu",
 	async (payload, thunkAPI) => {
@@ -34,12 +43,6 @@ const MenuSlice = createSlice({
 		message: "",
 	},
 	reducers: {
-		add: (state, { payload }) => {
-			state.menus.push(payload);
-		},
-		remove: (state, { payload }) => {
-			state.menus = state.menus.filter((menu) => menu.id !== payload);
-		},
 		selectedMenu: (state, { payload }) => {
 			state.menu = payload;
 		},
@@ -80,5 +83,5 @@ const MenuSlice = createSlice({
 	},
 });
 
-export const {add, remove, selectedMenu } = MenuSlice.actions;
+export const { selectedMenu } = MenuSlice.actions;
 export default MenuSlice;

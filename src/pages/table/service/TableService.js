@@ -28,6 +28,29 @@ const TableService = () => {
 		});
 	};
 
+	const update = (updated) => {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				if (updated) {
+					let found = false;
+					tables = tables.map((table) => {
+						if (table.id === updated.id) {
+							found = true;
+							return updated;
+						} else {
+							return table;
+						}
+					});
+					if (found) {
+						resolve("Data berhasil disimpan");
+					} else {
+						reject("Data tidak ditemukan");
+					}
+				}
+			}, 2000);
+		});
+	};
+
 	const remove = (id) => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
@@ -46,7 +69,7 @@ const TableService = () => {
 		});
 	};
 
-	return { create, getAll, remove };
+	return { create, getAll, update, remove };
 };
 
 export default TableService;

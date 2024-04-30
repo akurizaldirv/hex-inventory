@@ -1,9 +1,5 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-
-import React from "react";
 import { useState } from "react";
-import { addMenuAction, selectedMenu } from "../slice/MenuSlice";
+import { addMenuAction, selectedMenu, updateMenuAction } from "../slice/MenuSlice";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -67,11 +63,15 @@ const MenuForm = () => {
 		e.preventDefault();
 		if (!isValid) return;
 
-		const menu = {
-			...form,
-			id: new Date().getMilliseconds().toString(),
-		};
-		dispatch(addMenuAction(menu));
+		if (form.id) {
+			dispatch(updateMenuAction(form));
+		} else {
+			const menu = {
+				...form,
+				id: new Date().getMilliseconds().toString(),
+			};
+			dispatch(addMenuAction(menu));
+		}
 		clearForm();
 		navigate("/menu");
 	};
@@ -83,7 +83,7 @@ const MenuForm = () => {
 			nama: "",
 		};
 
-		// setForm(emptyMenu)
+		setForm(emptyMenu)
 		dispatch(selectedMenu(emptyMenu));
 	};
 	return (
@@ -105,9 +105,7 @@ const MenuForm = () => {
 						onBlur={handleChange}
 					/>
 					{error.nama && (
-						<div className="invalid-feedback ">
-							{error.nama}
-						</div>
+						<div className="invalid-feedback ">{error.nama}</div>
 					)}
 				</div>
 				<div className="mb-3">
@@ -127,9 +125,7 @@ const MenuForm = () => {
 						onBlur={handleChange}
 					/>
 					{error.harga && (
-						<div className="invalid-feedback ">
-							{error.harga}
-						</div>
+						<div className="invalid-feedback ">{error.harga}</div>
 					)}
 				</div>
 				<div className="d-flex gap-1">
@@ -144,7 +140,7 @@ const MenuForm = () => {
 						Reset
 					</button>
 					<button
-						className="btn btn-secondary"
+						className="btn btn-secondary text-light"
 						onClick={() => navigate("/menu")}
 					>
 						Back

@@ -3,16 +3,16 @@ import WithState from "../hoc/WithState";
 import ava from "../../assets/img/ava.png"
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { logout } from "../../pages/authentication/slice/AuthSlice";
+import { logoutAction } from "../../pages/authentication/slice/AuthSlice";
 
 const Header = () => {
-	const {username} = useSelector(state => state.auth);
+	const {userInfo} = useSelector(state => state.auth);
 	const dispatch = useDispatch()
 
 	return (
 		<div className="d-flex justify-content-between bg-primary rounded-4 px-4 py-2" style={{marginBottom: "2vh"}}>
 			<div className="fs-5 text-white fw-semibold">
-				welcome, {username}
+				welcome, {userInfo.username}
 			</div>
 			<button
 				className="border-0 dropdown bg-primary"
@@ -30,13 +30,13 @@ const Header = () => {
 			<ul className="dropdown-menu ">
 				<li className="dropdown-item-text">
 					<div className="flex-grow-1">
-						<h6 className="mb-1">{username}</h6>
+						<h6 className="mb-1">{userInfo.username}</h6>
 					</div>
 				</li>
 				<hr />
 				<li>
 					<button
-						onClick={() => dispatch(logout())}
+						onClick={() => dispatch(logoutAction())}
 						className="dropdown-item"
 					>
 						<i className="me-2">
