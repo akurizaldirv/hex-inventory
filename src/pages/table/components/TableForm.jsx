@@ -10,110 +10,94 @@ import {
 } from "../slice/TableSlice";
 import { useNavigate } from "react-router-dom";
 
-const TableForm = () => {
-	const [form, setForm] = useState({
-		id: "",
-		nama: "",
-		status: false,
-	});
-	const [error, setError] = useState({
-		id: "",
-		nama: "",
-	});
-	const [isValid, setIsValid] = useState(false);
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const schema = z.object({
+	id: z.number(),
+	nama: z.number().min(1, { message: "Hanya dapat menerima angka" }),
+	status: z.boolean(),
+});
+
+const TableForm = () => {
 	const { table } = useSelector((state) => state.table);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		formState: { errors, isValid },
+	} = useForm({ mode: "onChange", resolver: zodResolver(schema) });
+
 	useEffect(() => {
+		const id = table ? table.id : 0;
+		setValue("id", id);
 		if (table) {
-			setForm(table);
+			setValue("nama", table.nama);
+			setValue("status", table.status);
 		}
-	}, [table]);
+	}, [table, setValue]);
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		const newError = { ...error };
-
-		if (name === "nama") {
-			newError.nama = value.length === 0 ? "Nama menu wajib diisi" : "";
+	useEffect(() => {
+		if (!table) {
+			clearForm();
 		}
+	}, []);
 
-		setForm({
-			...form,
-			[name]: value,
-		});
-		setError(newError);
-
-		validateForm();
-	};
-
-	const handleChangeStatus = (event) => {
-		setForm({
-			...form,
-			status: event.target.checked,
-		});
-
-		validateForm();
-	};
-
-	const validateForm = () => {
-		const { nama } = form;
-		const isValid =
-			nama.trim() !== "" && Object.values(error).every((e) => e === "");
-
-		setIsValid(isValid);
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const onSubmit = (data) => {
+		console.log(data);
 		if (!isValid) return;
-
-		if (form.id) {
-			dispatch(updateTableAction(form));
+		if (data.id !== 0) {
+			dispatch(updateTableAction(data));
 		} else {
-			const table = {
-				...form,
-				id: new Date().getMilliseconds().toString(),
+			const menu = {
+				...data,
+				id: new Date().getMilliseconds(),
 			};
-			dispatch(addTableAction(table));
+			dispatch(addTableAction(menu));
 		}
-
 		clearForm();
 		navigate("/table");
 	};
 
 	const clearForm = () => {
 		const emptyForm = {
-			id: "",
-			nama: "",
+			id: 0,
+			nama: 0,
 			status: false,
 		};
-		setForm(emptyForm);
+
+		setValue("nama", emptyForm.nama);
+		setValue("status", emptyForm.status);
+		setValue("id", emptyForm.id);
 		dispatch(selectedTable(emptyForm));
 	};
 
 	return (
 		<div>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<input
+					type="hidden"
+					{...register("id", { valueAsNumber: true })}
+				/>
 				<div className="mb-3">
 					<label htmlFor="inputName" className="form-label">
 						Nama
 					</label>
 					<input
-						type="text"
+						type="number"
 						className={`form-control ${
-							error.nama === "" ? "" : "is-invalid"
+							errors.nama && "is-invalid"
 						}`}
 						id="inputName"
 						name="nama"
-						value={form.nama}
-						onChange={handleChange}
-						onBlur={handleChange}
+						{...register("nama", { valueAsNumber: true })}
 					/>
-					{error.nama && (
-						<div className="invalid-feedback ">{error.nama}</div>
+					{errors.nama && (
+						<div className="invalid-feedback ">{errors.nama}</div>
 					)}
 				</div>
 				<div className="form-check my-3  d-flex gap-2">
@@ -122,8 +106,7 @@ const TableForm = () => {
 						name="status"
 						id="status"
 						className="form-check-input"
-						onChange={handleChangeStatus}
-						checked={form.status}
+						{...register("status")}
 					/>
 					<label htmlFor="status">Tersedia</label>
 				</div>

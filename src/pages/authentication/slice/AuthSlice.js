@@ -29,7 +29,10 @@ const AuthSlice = createSlice({
 	name: "auth",
 	initialState: {
 		isLoading: false,
-		userInfo: {},
+		userInfo: {
+			username: "NOT ADMIN",
+			loginAt: 123412341234
+		},
 		notification: {
             message: "",
             color: "primary"
