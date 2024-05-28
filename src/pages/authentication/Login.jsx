@@ -1,7 +1,6 @@
 import { IconAt, IconLock } from "@tabler/icons-react";
-import foods from "../../assets/img/foods.png";
+import inventory from "../../assets/img/inventory.png";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { loginAction } from "./slice/AuthSlice";
 import "../../App.css";
 import { useForm } from "react-hook-form";
@@ -41,7 +40,7 @@ const Login = () => {
 					>
 						<div className="d-flex justify-content-center align-items-center">
 							<img
-								src={foods}
+								src={inventory}
 								alt="Login Image"
 								className="w-75 my-3"
 							/>

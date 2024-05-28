@@ -2,20 +2,20 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getTableAction, removeTableAction, selectedTable } from "../slice/TableSlice";
+import { getBarangAction, removeBarangAction, selectedBarang } from "../slice/BarangSlice";
 import LoadingAnimation from "../../../shared/animation/LoadingAnimation";
 
-const TableList = () => {
-	const { tables, isLoading } = useSelector((state) => state.table);
+const BarangList = () => {
+	const { barangs, isLoading } = useSelector((state) => state.barang);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		dispatch(getTableAction());
+		dispatch(getBarangAction());
 	}, [dispatch]);
 
 	const handleClickEdit = (data) => {
-		dispatch(selectedTable(data))
+		dispatch(selectedBarang(data))
 		navigate("form")
 	}
 
@@ -31,7 +31,7 @@ const TableList = () => {
 	return (
 		<div>
 			<div className="d-flex mt-5 justify-content-between">
-				<h2 className="fs-4">Daftar Meja</h2>
+				<h2 className="fs-4">Daftar Barang</h2>
 				<button
 					onClick={() => navigate("form")}
 					className="btn btn-primary text-light"
@@ -49,21 +49,21 @@ const TableList = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{tables &&
-						tables.map((table, idx) => {
+					{barangs &&
+						barangs.map((barang, idx) => {
 							return (
-								<tr key={table.id}>
+								<tr key={barang.id}>
 									<th scope="row">{idx + 1}</th>
-									<td>{table.nama}</td>
+									<td>{barang.nama}</td>
 									<td>
 										<span
 											className={`badge text-white p-2 ${
-												table.status
+												barang.status
 													? "bg-secondary"
 													: "bg-danger"
 											}`}
 										>
-											{table.status
+											{barang.status
 												? "Tersedia"
 												: "Tidak Tersedia"}
 										</span>
@@ -71,7 +71,7 @@ const TableList = () => {
 									<td>
 										<button
 											className="btn btn-primary text-light me-2"
-											onClick={() => handleClickEdit(table)}
+											onClick={() => handleClickEdit(barang)}
 										>
 											Edit
 										</button>
@@ -79,7 +79,7 @@ const TableList = () => {
 											className="btn btn-danger"
 											onClick={() => 
 												dispatch(
-													removeTableAction(table.id)
+													removeBarangAction(barang.id)
 												)}
 										>
 											Hapus
@@ -94,4 +94,4 @@ const TableList = () => {
 	);
 };
 
-export default TableList;
+export default BarangList;

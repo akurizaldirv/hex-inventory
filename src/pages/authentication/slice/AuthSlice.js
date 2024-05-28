@@ -30,7 +30,7 @@ const AuthSlice = createSlice({
 	initialState: {
 		isLoading: false,
 		userInfo: {
-			username: "NOT ADMIN",
+			username: "admin",
 			loginAt: 123412341234
 		},
 		notification: {

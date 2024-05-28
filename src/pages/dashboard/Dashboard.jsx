@@ -1,7 +1,7 @@
 import { Component } from "react";
 
 export default class Dashboard extends Component {
-    render() {
+	render() {
 		return (
 			<div
 				className="text-center rounded-4 px-4 py-2"
@@ -9,20 +9,21 @@ export default class Dashboard extends Component {
 			>
 				<div className="my-5">
 					<img
-						src="https://beritausaha.com/wp-content/uploads/2022/12/trays-with-take-away-food-close-up-assorted-food_188913-1529.jpg"
-						alt="Warung Makan Bahari"
-                        width={300}
-                        className="rounded-5"
+						src="https://thumbs.dreamstime.com/b/inventory-management-words-white-paper-against-background-table-numbers-calculator-banknotes-inventory-215015659.jpg"
+						alt="HEX Inventory"
+						width={300}
+						className="rounded-5"
 					/>
 				</div>
-				<h1>Warung Makan Bakari</h1>
-				<p style={{maxWidth: "500px"}} className="mx-auto">
-					Warung Makan Bahari adalah tempat santai yang menyajikan
-					hidangan laut segar. Dengan dekorasi sederhana yang
-					mencerminkan nuansa laut, warung ini menyajikan menu beragam
-					mulai dari ikan bakar, udang goreng, hingga sop seafood.
-					Suasana hangat dan ramah membuat pengunjung betah menikmati
-					hidangan lezat di sini.
+				<h1>HEX Inventory</h1>
+				<p style={{ maxWidth: "500px" }} className="mx-auto">
+					Selamat datang di Hex Inventory, solusi unggulan untuk
+					manajemen inventaris bisnis Anda. Dengan teknologi canggih
+					dan antarmuka yang mudah digunakan, Hex Inventory membantu
+					Anda mengelola stok barang dengan efisien dan akurat. Pantau
+					persediaan secara real-time, dapatkan notifikasi otomatis
+					saat stok menipis, dan buat laporan mendalam untuk analisis
+					yang lebih baik. 
 				</p>
 			</div>
 		);

@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import TableSlice from "./pages/table/slice/TableSlice";
 import AuthSlice from "./pages/authentication/slice/AuthSlice";
-import MenuSlice from "./pages/menu/slice/MenuSlice";
+import BarangSlice from "./pages/barang/slice/BarangSlice";
 
 const store = configureStore({
     reducer: {
-        table: TableSlice.reducer,
-        menu: MenuSlice.reducer,
+        barang: BarangSlice.reducer,
         auth: AuthSlice.reducer
     }
 })

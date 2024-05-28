@@ -1,17 +1,17 @@
-const MenuService = () => {
-	let menus = [
+const BarangService = () => {
+	let barangs = [
 		{
 			id: 1,
-			nama: "Nasi Goreng",
-			harga: 20000,
+			nama: "Meja",
+			status: true
 		},
 	];
 
-	const create = (menu) => {
+	const create = (barang) => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
-				if (menu) {
-					menus = [...menus, menu];
+				if (barang) {
+					barangs = [...barangs, barang];
 					resolve("Berhasil menambahkan data");
 				} else {
 					reject("Data tidak boleh kosong");
@@ -23,7 +23,7 @@ const MenuService = () => {
 	const getAll = () => {
 		return new Promise((resolve) => {
 			setTimeout(() => {
-				resolve(menus);
+				resolve(barangs);
 			}, 2000);
 		});
 	};
@@ -33,12 +33,12 @@ const MenuService = () => {
 			setTimeout(() => {
 				if (updated) {
 					let found = false;
-					menus = menus.map((menu) => {
-						if (menu.id === updated.id) {
+					barangs = barangs.map((barang) => {
+						if (barang.id === updated.id) {
 							found = true;
 							return updated;
 						} else {
-							return menu;
+							return barang;
 						}
 					});
 					if (found) {
@@ -55,9 +55,9 @@ const MenuService = () => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				if (id) {
-					const idx = menus.findIndex((menu) => menu.id === id);
+					const idx = barangs.findIndex((barang) => barang.id === id);
 					if (idx !== -1) {
-						menus = menus.filter((menu) => menu.id !== id);
+						barangs = barangs.filter((barang) => barang.id !== id);
 						resolve("Berhasil menghapus data");
 					} else {
 						reject("Index tidak ditemukan");
@@ -72,4 +72,4 @@ const MenuService = () => {
 	return { create, getAll, update, remove };
 };
 
-export default MenuService;
+export default BarangService;

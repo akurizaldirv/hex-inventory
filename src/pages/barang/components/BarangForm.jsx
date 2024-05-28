@@ -1,27 +1,22 @@
-import { useState } from "react";
 import WithState from "../../../shared/hoc/WithState";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import {
-	addTableAction,
-	selectedTable,
-	updateTableAction,
-} from "../slice/TableSlice";
 import { useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addBarangAction, selectedBarang, updateBarangAction } from "../slice/BarangSlice";
 
 const schema = z.object({
 	id: z.number(),
-	nama: z.number().min(1, { message: "Hanya dapat menerima angka" }),
+	nama: z.string().required({ message: "Hanya dapat menerima angka" }),
 	status: z.boolean(),
 });
 
-const TableForm = () => {
-	const { table } = useSelector((state) => state.table);
+const BarangForm = () => {
+	const { barang } = useSelector((state) => state.barang);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -33,16 +28,16 @@ const TableForm = () => {
 	} = useForm({ mode: "onChange", resolver: zodResolver(schema) });
 
 	useEffect(() => {
-		const id = table ? table.id : 0;
+		const id = barang ? barang.id : 0;
 		setValue("id", id);
-		if (table) {
-			setValue("nama", table.nama);
-			setValue("status", table.status);
+		if (barang) {
+			setValue("nama", barang.nama);
+			setValue("status", barang.status);
 		}
-	}, [table, setValue]);
+	}, [barang, setValue]);
 
 	useEffect(() => {
-		if (!table) {
+		if (!barang) {
 			clearForm();
 		}
 	}, []);
@@ -51,29 +46,29 @@ const TableForm = () => {
 		console.log(data);
 		if (!isValid) return;
 		if (data.id !== 0) {
-			dispatch(updateTableAction(data));
+			dispatch(updateBarangAction(data));
 		} else {
-			const menu = {
+			const barang = {
 				...data,
 				id: new Date().getMilliseconds(),
 			};
-			dispatch(addTableAction(menu));
+			dispatch(addBarangAction(barang));
 		}
 		clearForm();
-		navigate("/table");
+		navigate("/barang");
 	};
 
 	const clearForm = () => {
 		const emptyForm = {
 			id: 0,
-			nama: 0,
+			nama: "",
 			status: false,
 		};
 
 		setValue("nama", emptyForm.nama);
 		setValue("status", emptyForm.status);
 		setValue("id", emptyForm.id);
-		dispatch(selectedTable(emptyForm));
+		dispatch(selectedBarang(emptyForm));
 	};
 
 	return (
@@ -88,13 +83,12 @@ const TableForm = () => {
 						Nama
 					</label>
 					<input
-						type="number"
 						className={`form-control ${
 							errors.nama && "is-invalid"
 						}`}
 						id="inputName"
 						name="nama"
-						{...register("nama", { valueAsNumber: true })}
+						{...register("nama")}
 					/>
 					{errors.nama && (
 						<div className="invalid-feedback ">{errors.nama}</div>
@@ -123,7 +117,7 @@ const TableForm = () => {
 					</button>
 					<button
 						className="btn btn-secondary text-light"
-						onClick={() => navigate("/table")}
+						onClick={() => navigate("/barang")}
 					>
 						Back
 					</button>
@@ -133,5 +127,5 @@ const TableForm = () => {
 	);
 };
 
-const TableFormWithState = WithState(TableForm);
-export default TableFormWithState;
+const BarangFormWithState = WithState(BarangForm);
+export default BarangFormWithState;

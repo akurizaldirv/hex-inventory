@@ -1,5 +1,4 @@
 import { IconLayoutDashboard } from "@tabler/icons-react";
-import { IconSoup } from "@tabler/icons-react";
 import { IconLogout } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -23,33 +22,21 @@ const Sidebar = () => {
 					onClick={() => navigate("/")}
 				>
 					<h1 className="fs-2 mb-0 fw-light">
-						<span className="fw-bold  fst-italic">WMB</span>
+						<span className="fw-bold  fst-italic">HEX</span>
 					</h1>
-					<p className="mt-0">Warung Makan Bakari</p>
-					{/* <hr /> */}
+					<p className="mt-0">Inventory</p>
 				</div>
 				<nav>
 					<ul className="d-flex flex-column gap-3 nav-list btn-toggle-nav list-unstyled">
 						<div>
-							<hr />
-							<p className="fw-bold mb-0">Management</p>
 							<li
 								className="cursor-pointer text-white btn text-start w-100"
-								onClick={() => navigate("/menu")}
-							>
-								<i className="me-3">
-									<IconSoup />
-								</i>
-								<span>Menu</span>
-							</li>
-							<li
-								className="cursor-pointer text-white btn text-start w-100"
-								onClick={() => navigate("/table")}
+								onClick={() => navigate("/barang")}
 							>
 								<i className="me-3">
 									<IconLayoutDashboard />
 								</i>
-								<span>Table</span>
+								<span>Barang</span>
 							</li>
 						</div>
 						<div>
