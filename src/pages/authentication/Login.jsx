@@ -6,6 +6,7 @@ import "../../App.css";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
 	username: z.string().min(1, { message: "Username harus terisi" }),
@@ -14,6 +15,7 @@ const schema = z.object({
 
 const Login = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -21,10 +23,12 @@ const Login = () => {
 		formState: { errors, isValid },
 	} = useForm({ mode: "onChange", resolver: zodResolver(schema) });
 
-	const onSubmit = (data) => {
+	const onSubmit = async (data) => {
 		if (!isValid) return;
+		console.log(data);
 
 		dispatch(loginAction(data));
+		navigate("/")
 	};
 
 	return (
@@ -86,7 +90,6 @@ const Login = () => {
 							)}
 						</div>
 						<button
-							disabled={!isValid}
 							type="submit"
 							className="btn btn-primary text-white text-white w-100 mt-3"
 						>

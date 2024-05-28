@@ -11,7 +11,7 @@ import { addBarangAction, selectedBarang, updateBarangAction } from "../slice/Ba
 
 const schema = z.object({
 	id: z.number(),
-	nama: z.string().required({ message: "Hanya dapat menerima angka" }),
+	nama: z.string(),
 	status: z.boolean(),
 });
 
